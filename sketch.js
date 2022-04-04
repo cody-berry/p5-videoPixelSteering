@@ -7,6 +7,11 @@
 let font
 let instructions
 
+let squareWidth = 10
+
+
+let vehicles = []
+
 
 function preload() {
     font = loadFont('data/consola.ttf')
@@ -14,7 +19,7 @@ function preload() {
 
 
 function setup() {
-    let cnv = createCanvas(600, 300)
+    let cnv = createCanvas(640, 360)
     cnv.parent('#canvas')
     colorMode(HSB, 360, 100, 100, 100)
     textFont(font, 14)
@@ -24,13 +29,26 @@ function setup() {
     instructions.html(`<pre>
         [1,2,3,4,5] → no function
         z → freeze sketch</pre>`)
+
+    rectMode(CORNER)
+
+    for (let x = 0; x < width/squareWidth; x++) {
+        for (let y = 0; y < height/squareWidth; y++) {
+            vehicles.push(new Vehicle((x + 1/2)*squareWidth, (y + 1/2)*squareWidth, squareWidth/2, color(0, 0, 0)))
+        }
+    }
 }
 
 
 function draw() {
     background(234, 34, 24)
 
-
+    for (let i = 0; i < vehicles.length; i++){
+        let vh = vehicles[i]
+        vh.show()
+        vh.update()
+        vh.behaviors()
+    }
 
     displayDebugCorner()
 }
